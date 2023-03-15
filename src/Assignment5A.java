@@ -68,7 +68,6 @@ public class Assignment5A {
         } while (choice != 4);
         sc.close();
     }
-
     private static String UserDetails(int i) {
         return "#" + empID[i] + ": " + empFirstName[i] + " " + empLastName[i] + ", Age " + empAge[i] + ", " + empJobTitle[i] + ", Medical License: " + String.valueOf(empHasMD[i]).toUpperCase();
     }
