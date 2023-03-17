@@ -9,25 +9,24 @@ public class Assignment5B {
     public static void main(String[] args) {
         System.out.println("[KSU Image Manipulation Program]");
         GetInitialSizeAndColor();
-        GenerateIntialUserArray();
+        GenerateInitialUserArray();
         do {
             PrintMainMenu();
             GetUserMenuChoice();
             switch (menuChoice) {
                 case 1 -> { //If user chose to fill a pixel
-                    GetUserColumn();
                     GetRowFromUser();
-                    GetUserNewColor();
-                    FillNewIndiciesPositionWithNewColor();
+                    GetColumnFromUser();
+                    GetNewColorFromUser();
+                    FillNewIndexPositionWithNewColor();
                 }
                 case 2 -> { //If user chose to fill a line
-                    GetUserColumn();
                     GetRowFromUser();
-                    GetUserNewColor();
-                    GetUserLength();
-                    GetUserDirection();
-                    DrawLineUsingLastNewUserInput();
-
+                    GetColumnFromUser();
+                    GetNewColorFromUser();
+                    GetLengthFromUser();
+                    GetDirectionFromUser();
+                    DrawLineUsingStoredInput();
                 }
                 case 3 -> { //If user chose to print the image
                     DisplayCurrentUserArray();
@@ -43,7 +42,7 @@ public class Assignment5B {
     }
 
     private static void DisplayCurrentUserArray() {
-        System.out.println("PGM Image Contents\n" + "P2\n" + width + " " + height + "\n255\n");
+        System.out.println("PGM Image Contents\n" + "P2\n" + width + " " + height + "\n255");
         for (int i = 0; i < userArrayPBM.length; i++) {
             for (int j = 0; j < width; j++) {
                 System.out.print(userArrayPBM[i][j] + " ");
@@ -53,23 +52,23 @@ public class Assignment5B {
         System.out.println();
     }
 
-    private static void DrawLineUsingLastNewUserInput() {
+    private static void DrawLineUsingStoredInput() {
         for (int i = 0; i < userArrayPBM.length; i++) {
             for (int j = 0; j < width; j++) {
-                if (direction.equalsIgnoreCase("up")) {
-                    if (j == rowIndex && i >= columnIndex) {
+                if (direction.equalsIgnoreCase("left")) {
+                    if (i == rowIndex && (j <= columnIndex && j > (columnIndex - length))) {
+                            userArrayPBM[i][j] = newColor;
+                    }
+                } else if (direction.equalsIgnoreCase("right")) {
+                    if (i == rowIndex && (j >= columnIndex && j < (columnIndex + length))) {
+                        userArrayPBM[i][j] = newColor;
+                    }
+                } else if (direction.equalsIgnoreCase("up")) {
+                    if ((i <= rowIndex && i > (rowIndex - length)) && j == columnIndex) {
                         userArrayPBM[i][j] = newColor;
                     }
                 } else if (direction.equalsIgnoreCase("down")) {
-                    if (j == rowIndex && i < columnIndex) {
-                        userArrayPBM[i][j] = newColor;
-                    }
-                } else if (direction.equalsIgnoreCase("left")) {
-                    if (j <= rowIndex && i == columnIndex) {
-                        userArrayPBM[i][j] = newColor;
-                    }
-                } else if (direction.equalsIgnoreCase("right")) {
-                    if (j > rowIndex && i == columnIndex) {
+                    if ((i >= rowIndex && i < (rowIndex + length)) && j == columnIndex) {
                         userArrayPBM[i][j] = newColor;
                     }
                 }
@@ -77,13 +76,12 @@ public class Assignment5B {
         }
     }
 
-    private static void GetUserLength() {
+    private static void GetLengthFromUser() {
         System.out.print("Length: ");
         length = sc.nextInt();
-
     }
 
-    private static void GetUserDirection() {
+    private static void GetDirectionFromUser() {
         sc.nextLine();
         boolean stayInLoop = true;
         do {
@@ -97,11 +95,11 @@ public class Assignment5B {
         } while (stayInLoop);
     }
 
-    private static void FillNewIndiciesPositionWithNewColor() {
+    private static void FillNewIndexPositionWithNewColor() {
         userArrayPBM[rowIndex][columnIndex] = newColor;
     }
 
-    private static void GenerateIntialUserArray() {
+    private static void GenerateInitialUserArray() {
         userArrayPBM = new int[height][width];
         for (int i = 0; i < userArrayPBM.length; i++) {
             for (int j = 0; j < width; j++) {
@@ -110,12 +108,12 @@ public class Assignment5B {
         }
     }
 
-    private static void GetUserColumn() {
+    private static void GetColumnFromUser() {
         boolean stayInLoop = true;
         do {
             System.out.print("Column: ");
             columnIndex = sc.nextInt();
-            if (rowIndex >= userArrayPBM.length) {
+            if (!(columnIndex >= width || columnIndex < 0)) {
                 stayInLoop = false;
             } else {
                 System.out.println("Value is outside the bounds of the array.");
@@ -124,12 +122,12 @@ public class Assignment5B {
     }
 
 
-    private static void GetUserNewColor() {
+    private static void GetNewColorFromUser() {
         boolean stayInLoop = true;
         do {
             System.out.print("New Color: ");
             newColor = sc.nextInt();
-            if (newColor > 0 && newColor < 256) {
+            if (newColor >= 0 && newColor < 256) {
                 stayInLoop = false;
             } else {
                 System.out.println("Color must be from 0 to 255.");
@@ -142,7 +140,7 @@ public class Assignment5B {
         do {
             System.out.print("Row: ");
             rowIndex = sc.nextInt();
-            if (rowIndex >= userArrayPBM[0].length) {
+            if (!(rowIndex > height || rowIndex < 0)) {
                 stayInLoop = false;
             } else {
                 System.out.println("Value is outside the bounds of the array.");
@@ -173,7 +171,7 @@ public class Assignment5B {
         do {
             System.out.print("Enter the fill color: ");
             color = sc.nextInt();
-            if (color > 0 && color < 256) {
+            if (color >= 0 && color < 256) {
                 stayInLoop = false;
             } else {
                 System.out.println("Color must be from 0 to 255.");
