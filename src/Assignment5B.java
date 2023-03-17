@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 public class Assignment5B {
     public static Scanner sc = new Scanner(System.in);
     public static int[][] userArrayPBM;
@@ -39,6 +38,7 @@ public class Assignment5B {
                 }
             }
         } while (menuChoice != 4);
+        sc.close();
     }
 
     private static void DisplayCurrentUserArray() {
