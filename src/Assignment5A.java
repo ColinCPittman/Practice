@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+//GitHub version
 public class Assignment5A {
     public static String menu = """
             1) List all employees

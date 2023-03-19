@@ -1,4 +1,5 @@
 import java.util.Scanner;
+//GitHub Version
 public class Assignment5B {
     public static Scanner sc = new Scanner(System.in);
     public static int[][] userArrayPBM;
@@ -82,7 +83,7 @@ public class Assignment5B {
     }
 
     private static void GetDirectionFromUser() {
-        sc.nextLine();
+        sc.nextLine(); //To skip the leftover escape sequence from previous nextInt() method.
         boolean stayInLoop = true;
         do {
             System.out.print("Direction: ");
